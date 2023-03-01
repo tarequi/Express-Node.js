@@ -1,0 +1,70 @@
+<%- include('./partials/header.ejs') %>
+<%- include('./partials/nav.ejs') %>
+
+
+
+<div class="message" id="message"></div>
+<div class="container mt-5">
+    <div class="search mb-3 d-flex justify-content-between flex-wrap">
+        <div class="col-lg-6 col-md-6 col-sm-6">
+            <div class="input-group input-group-lg">
+                <input type="text" class="form-control w-100" placeholder="Search Book" name="res_search"  id="res_search">
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="input-group input-group-lg">
+                <select class="form-select w-100" name="cati_filter" id="cati_filter"  style="    padding-right: 188px;">
+                    <option selected disabled>Filter Catigory</option>
+                    <% for(let i=0 ; i < category_data.length ; i++){ %> 
+                    <option value="<%= category_data[i].category_id%>"><%= category_data[i].category_name%></option>
+                    <% } %> 
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 col-sm-6">
+            <div class="input-group input-group-lg">
+                <select class="form-select w-100" name="auth_filter" id="auth_filter" style="    padding-right: 188px;">
+                <option selected disabled>Filter Authers</option>
+                    <% for(let i=0 ; i < auther_data.length ; i++){ %> 
+                    <option value="<%= auther_data[i].auth_id%>"><%= auther_data[i].auth_name%></option>
+                    <% } %> 
+                </select>
+            </div>
+        </div>
+    </div>
+    <div class="row row-cols-1 row-cols-md-3 g-4" id="crud">
+        <% for(let i=0 ; i < book_data.length ; i++){ %>
+          
+          <div class="col-lg-4 col-md-6 shadow-lg p-3 mb-5 bg-white rounded parent">
+            <div class="card" data-role="product" data-id="<?= $row['id_book']?>">
+                <img src="../img/<%=book_data[i].book_img %> " class="img-fluid" style="height:200px; width:100%; margin:auto">
+                <label class="mt-3">Book name</label>
+                <h6 class="card-text" id="card-text"><%=book_data[i].book_name %></h6>
+                <label>Book Description</label>
+                <h6 class="card-text"><%=book_data[i].description %></h6>
+                <label>Aurher Name</label>
+                <h6 class="card-text"><%=book_data[i].auth_name %></h6>
+                <label>Catigores</label>
+                <h6 class="card-text"><%=book_data[i].cat %></h6>
+                <div class="button text-end">
+                    <button class="btn btn-success ">Add to cart</button>
+                </div>
+            </div>
+          </div>
+   <% } %> 
+</div>
+<button class="btn btn-primary mb-3 mt-3" id="load_more">Load More</button>
+<input type="hidden" value="0" id="row">
+<input type="hidden" value="<%=all_record%> " id="all_row"> <!--$obj_book->get_num_rec() ==> Total Number of record-->
+</div>
+
+
+
+
+
+
+
+<%- include('./partials/footer.ejs') %>
+
+<script src="../js/main_book_view.js"></script>
+

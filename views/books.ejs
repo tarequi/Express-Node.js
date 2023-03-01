@@ -1,0 +1,201 @@
+<%- include('./partials/header.ejs') %>
+<%- include('./partials/nav.ejs') %>
+
+
+
+<div class="container">
+    <div id="message"></div>
+    <div class="head-page">
+        <h3 class="page-head-titel"><%= title %> </h3>
+        <div class="head-buttons">
+            <a class="btn btn-primary" id="add_book" name="add_book">Add Book</a>
+            <a class="btn btn-success" href="/ex_to_excel" id="export_excel_btn">Export Excel</a>
+        </div>
+    </div>
+    <table class="table display nowrap cellspacing='0' width = '100%'" id="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Description</th>
+                <th scope="col">category</th>
+                <th scope="col">Auther</th>
+                <th scope="col">Image Book</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+           
+        </tbody> 
+    </table>
+</div>
+    
+
+
+<!-----------------------------Modal add cati && Modal  Update cati && Modal  Delete cati--------------------------->
+<div class="modal fade" id="Modal_cati" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="myForm" method="POST" action="/add_book" enctype="multipart/form-data">
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label> Book Name </label><br>
+                            <input type="text" class="form-control" minlength="4" required name="book_name" id="book_name"><br>
+                        </div>
+                        <div class="form-group">
+                            <label> Auther Name </label>
+                            <select class="form-select" name="select_auth"  id="select_auth" required aria-label="Floating label select example">
+                            <option value="" selected>Select Auther</option>
+
+                            <% for(let i = 0 ; i < auther_data.length ; i++){ %> 
+
+                                <option value="<%= auther_data[i].auth_id%>"><%= auther_data[i].auth_name%> </option>
+                               
+                            <% } %> 
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label> Description</label>
+                            <input type="text" class="form-control" minlength="3" required name="description" id="description">
+                        </div>
+
+                        <div class="form-group">
+                            <label> Catigory </label>
+                            <select class="form-select mt-3" multiple   name="select_cati" id="select_cati" aria-label="Floating label select example">
+                            <option value="" selected disabled>Select Catigory</option>
+                                
+
+                            <% for(let i = 0 ; i < category_data.length ; i++){ %> 
+
+                                <option value="<%=category_data[i].category_id%>"><%=category_data[i].category_name%></option>
+                            
+                           
+                                <% } %> 
+                            </select>
+                        </div>  
+                        <div id="img-sec" class="d-flex align-items-center justify-content-between">
+                            <input type="file"  name="img" id="img" class="btn btn-success mt-3" multiple>
+                            <!-- <input type="hidden" name="old_img" id="old_img"> -->
+                        </div>
+                            
+                    
+
+                    </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" id="close" class="btn btn-danger float-left" data-bs-dismiss="modal">Close</button>
+                    
+                    <!--Button for Insert-->
+                    <button type="submit" id="add_book_model" name="add_book" class="btn btn-success">Add Book</button>
+                   </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-----------------------------Modal add Auther && Modal  Update Auther && Modal  Delete Auther--------------------------->
+
+
+
+
+
+        
+<!----------------------------- Modal  Update --------------------------->
+<div class="modal fade" id="update_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="update_form" method="POST" action="/update_book" enctype="multipart/form-data">
+                <div class="modal-body">
+                        <div class="form-group">
+                            <label> Book Name </label><br>
+                            <input type="text" class="form-control" minlength="4"  name="book_name" id="book_name_update"><br>
+                        </div>
+                        <div class="form-group">
+                            <label> Auther Name </label>
+                            <select class="form-select" name="select_auth"  id="select_auth_update"  aria-label="Floating label select example">
+                            <option value="" selected>Select Auther</option>
+
+                            <% for(let i = 0 ; i < auther_data.length ; i++){ %> 
+
+                                <option value="<%= auther_data[i].auth_id%>"><%= auther_data[i].auth_name%> </option>
+                               
+                            <% } %> 
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label> Description</label>
+                            <input type="text" class="form-control" minlength="3"  name="description" id="description_update">
+                        </div>
+
+                        <div class="form-group">
+                            <label> Catigory </label>
+                            <select class="form-select mt-3" multiple   name="select_cati" id="select_cati_update" aria-label="Floating label select example">
+                            <option value="" selected disabled>Select Catigory</option>
+                                
+
+                            <% for(let i = 0 ; i < category_data.length ; i++){ %> 
+
+                                <option value="<%=category_data[i].category_id%>"><%=category_data[i].category_name%></option>
+                            
+                           
+                                <% } %> 
+                            </select>
+                        </div>  
+                        <div id="img-sec" class="d-flex align-items-center justify-content-between">
+                            <input type="file"  name="img" id="img" class="btn btn-success mt-3" multiple>
+                            <input type="hidden" name="old_img" id="old_img">
+                        </div>
+                            
+                    <!--Id for Update-->
+                    <input type="hidden" id="book_Id_update" name="update_id_book" class="form-control">
+                </div>
+                <div class="modal-footer justify-content-between">
+                    <button type="button" id="close" class="btn btn-danger float-left" data-bs-dismiss="modal">Close</button>
+                    <!--Button for Update-->
+                    <button type="submit" id="update_book_model" name="update" class="btn btn-success">Update</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-----------------------------Modal add Auther && Modal  Update Auther && Modal  Delete Auther--------------------------->
+
+
+
+       
+<!----------------------------- Modal  Update --------------------------->
+<div class="modal fade" id="delete_model" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Delete Book</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form id="delete_form" method="POST" action="/delete_book" enctype="multipart/form-data">    
+                    <!--Id for Delete-->
+                    <input type="hidden" id="book_Id_Delete" name="delete_id_book" class="form-control">
+                <div class="modal-footer justify-content-between">
+                    <button type="button" id="close" class="btn btn-danger float-left" data-bs-dismiss="modal">Close</button>
+                    <!--Button for Delete-->
+                    <button type="submit" id="Delete_book_model" name="del" class="btn btn-danger">Delete Book</button>
+                 </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-----------------------------Modal add Auther && Modal  Update Auther && Modal  Delete Auther--------------------------->
+
+
+
+
+<%- include('./partials/footer.ejs') %>
+
+<script src="../js/main_book.js"></script>

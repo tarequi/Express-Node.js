@@ -1,0 +1,9 @@
+.head-page{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+}
+.error{
+    color: red;
+}
